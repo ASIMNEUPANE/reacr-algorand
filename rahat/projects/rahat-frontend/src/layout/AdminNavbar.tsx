@@ -2,7 +2,7 @@ import { useState } from 'react';
 import ConnectWallet from '../components/ConnectWallet';
 import { Link } from 'react-router-dom';
 
-export const Navbar = () => {
+export const AdminNavbar = () => {
   const [openWalletModal, setOpenWalletModal] = useState<boolean>(false);
 
   const toggleWalletModal = () => {
@@ -44,9 +44,7 @@ export const Navbar = () => {
                 className="block py-2 px-3 md:p-0 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:dark:text-blue-500"
                 aria-current="page"
               >
-                <Link to={'/home'}>
-                Home
-                </Link>
+                <Link to={'/admin/dashboard'}>Dashboard</Link>
               </a>
             </li>
             <li>
@@ -54,7 +52,7 @@ export const Navbar = () => {
                 href="#"
                 className="block py-2 px-3 md:p-0 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
               >
-                Beneficary
+                <Link to={'/admin/project'}>Project</Link>
               </a>
             </li>
             <li>
@@ -62,7 +60,7 @@ export const Navbar = () => {
                 href="#"
                 className="block py-2 px-3 md:p-0 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
               >
-                Vendors
+                <Link to={'/admin/transaction'}>Transaction</Link>
               </a>
             </li>
             <li>
@@ -70,7 +68,7 @@ export const Navbar = () => {
                 href="#"
                 className="block py-2 px-3 md:p-0 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
               >
-                About Us
+                Others
               </a>
             </li>
           </ul>

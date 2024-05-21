@@ -1,61 +1,60 @@
-import { DeflyWalletConnect } from '@blockshake/defly-connect'
-import { DaffiWalletConnect } from '@daffiwallet/connect'
-import { PeraWalletConnect } from '@perawallet/connect'
-import { PROVIDER_ID, ProvidersArray, WalletProvider, useInitializeProviders } from '@txnlab/use-wallet'
-import algosdk from 'algosdk'
-import { SnackbarProvider } from 'notistack'
-import Home from './Home'
-import { getAlgodConfigFromViteEnvironment, getKmdConfigFromViteEnvironment } from './utils/network/getAlgoClientConfigs'
-import { Navbar } from './layout/navBar'
-
-
-let providersArray: ProvidersArray
-if (import.meta.env.VITE_ALGOD_NETWORK === '') {
-  const kmdConfig = getKmdConfigFromViteEnvironment()
-  providersArray = [
-    {
-      id: PROVIDER_ID.KMD,
-      clientOptions: {
-        wallet: kmdConfig.wallet,
-        password: kmdConfig.password,
-        host: kmdConfig.server,
-        token: String(kmdConfig.token),
-        port: String(kmdConfig.port),
-      },
-    },
-  ]
-} else {
-  providersArray = [
-    { id: PROVIDER_ID.DEFLY, clientStatic: DeflyWalletConnect },
-    { id: PROVIDER_ID.PERA, clientStatic: PeraWalletConnect },
-    { id: PROVIDER_ID.DAFFI, clientStatic: DaffiWalletConnect },
-    { id: PROVIDER_ID.EXODUS },
-    // If you are interested in WalletConnect v2 provider
-    // refer to https://github.com/TxnLab/use-wallet for detailed integration instructions
-  ]
-}
+import Home from './Home';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import AdminLayout from './layout/AdminLayout';
+import UserLayout from './layout/UserLayout';
+('./layout/UserLayout');
+import { AdminRoute } from './components/Routes';
+import Dashboard from './pages/Dashboard';
+import Project from './pages/Project';
+import Transaction from './pages/Transaction';
+import AddProject from './AddProject';
 
 export default function App() {
-  const algodConfig = getAlgodConfigFromViteEnvironment()
-
-  const walletProviders = useInitializeProviders({
-    providers: providersArray,
-    nodeConfig: {
-      network: algodConfig.network,
-      nodeServer: algodConfig.server,
-      nodePort: String(algodConfig.port),
-      nodeToken: String(algodConfig.token),
-    },
-    algosdkStatic: algosdk,
-  })
-
   return (
-    <SnackbarProvider maxSnack={3}>
-      <WalletProvider value={walletProviders}>
-        <Navbar />
-        <Home />
-     
-      </WalletProvider>
-    </SnackbarProvider>
-  )
+    <div>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<UserLayout />}>
+            <Route path="/home" element={<Home />} />
+            <Route path="/home/add" element={<AddProject />} />
+          </Route>
+
+          <Route path="/admin" element={<AdminLayout />}>
+            <Route
+              path="/admin/dashboard"
+              element={
+                <AdminRoute>
+                  <Dashboard />
+                </AdminRoute>
+              }
+            />
+            <Route
+              path="/admin/project"
+              element={
+                <AdminRoute>
+                  <Project />
+                </AdminRoute>
+              }
+            />
+            {/* <Route
+              path="/admin/project/add"
+              element={
+                <AdminRoute>
+                  < AddProject/>
+                </AdminRoute>
+              }
+            /> */}
+            <Route
+              path="/admin/transaction"
+              element={
+                <AdminRoute>
+                  <Transaction />
+                </AdminRoute>
+              }
+            />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </div>
+  );
 }

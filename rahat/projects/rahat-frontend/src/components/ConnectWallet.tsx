@@ -1,16 +1,16 @@
-import { Provider, useWallet } from '@txnlab/use-wallet'
-import Account from './Account'
-
+import { Provider, useWallet } from '@txnlab/use-wallet';
+import Account from './Account';
+import { Navigate } from 'react-router-dom';
 
 interface ConnectWalletInterface {
-  openModal: boolean
-  closeModal: () => void
+  openModal: boolean;
+  closeModal: () => void;
 }
 
 const ConnectWallet = ({ openModal, closeModal }: ConnectWalletInterface) => {
-  const { providers, activeAddress } = useWallet()
+  const { providers, activeAddress } = useWallet();
 
-  const isKmd = (provider: Provider) => provider.metadata.name.toLowerCase() === 'kmd'
+  const isKmd = (provider: Provider) => provider.metadata.name.toLowerCase() === 'kmd';
 
   return (
     <dialog
@@ -24,7 +24,7 @@ const ConnectWallet = ({ openModal, closeModal }: ConnectWalletInterface) => {
         <div className="grid gap-6">
           {activeAddress && (
             <>
-              <Account />
+              <Navigate replace to="/admin/dashboard" />
               <div className="border-b border-gray-600 my-4" />
             </>
           )}
@@ -78,5 +78,5 @@ const ConnectWallet = ({ openModal, closeModal }: ConnectWalletInterface) => {
       </form>
     </dialog>
   );
-}
-export default ConnectWallet
+};
+export default ConnectWallet;
