@@ -1,1 +1,1 @@
-# reacr-algorand
+# react-algorand
