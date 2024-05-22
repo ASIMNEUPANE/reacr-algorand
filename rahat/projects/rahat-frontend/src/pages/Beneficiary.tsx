@@ -52,11 +52,38 @@ const Beneficiary = () => {
       'Banking Status': 1,
       fee: 120,
     },
+    {
+      Name: 'Bob Brown',
+      'Wallet Address': '0xJKL456789012',
+      Gender: 'Male',
+      'Internet Access': 'Yes',
+      'Phone Type': 'Smartphone',
+      'Banking Status': 1,
+      fee: 120,
+    },
+    {
+      Name: 'Bob Brown',
+      'Wallet Address': '0xJKL456789012',
+      Gender: 'Male',
+      'Internet Access': 'Yes',
+      'Phone Type': 'Smartphone',
+      'Banking Status': 1,
+      fee: 120,
+    },
+    {
+      Name: 'Bob Brown',
+      'Wallet Address': '0xJKL456789012',
+      Gender: 'Male',
+      'Internet Access': 'Yes',
+      'Phone Type': 'Smartphone',
+      'Banking Status': 1,
+      fee: 120,
+    },
   ];
 
   return (
     <div className="mt-16">
-      <div className="bg-[#1c1c24] flex justify-center items-start flex-col rounded-[10px] sm:p-10 p-4">
+      <div className="bg-gray-200 flex justify-center items-start flex-col rounded-[10px] sm:p-10 p-4">
         <Table>
           <TableCaption>A list of your beneficiaries.</TableCaption>
           <TableHeader>

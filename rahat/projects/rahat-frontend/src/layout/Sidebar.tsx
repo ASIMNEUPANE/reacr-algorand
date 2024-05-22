@@ -35,7 +35,7 @@ const Sidebar = () => {
   return (
     <div className="flex flex-col justify-between items-center sticky top-5 h-[93vh]">
       <Link to="/">
-        <Icon styles="w-[90px] h-[60px] " imgUrl={logo} name="" isActive="" />
+        <Icon styles="w-[70px] h-[60px] " imgUrl={logo} name="" isActive="" />
       </Link>
 
       <div className="flex-1 flex flex-col px-4 justify-between items-center bg-[#1c1c24] rounded-[20px] w-[200px] py-4 mt-12">
@@ -56,7 +56,7 @@ const Sidebar = () => {
           ))}
         </div>
 
-        <Icon styles="bg-[#1c1c24] shadow-secondary" imgUrl={sun} name="" isActive="" />
+        {/* <Icon styles="bg-[#1c1c24] shadow-secondary" imgUrl={sun} name="" isActive="" /> */}
       </div>
     </div>
   );
