@@ -9,6 +9,8 @@ import algosdk from 'algosdk';
 import { SnackbarProvider } from 'notistack';
 import { getAlgodConfigFromViteEnvironment, getKmdConfigFromViteEnvironment } from './utils/network/getAlgoClientConfigs';
 import ErrorBoundary from './components/ErrorBoundary';
+import { AuthProvider } from './context/AuthContext';
+
 import './index.css';
 
 const ProvidersWrapper: React.FC = () => {
@@ -51,6 +53,7 @@ const ProvidersWrapper: React.FC = () => {
   });
 
   return (
+
     <WalletProvider value={walletProviders}>
       <ErrorBoundary>
         <App />
@@ -62,8 +65,10 @@ const ProvidersWrapper: React.FC = () => {
 // Render the React application
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    <SnackbarProvider maxSnack={3}>
-      <ProvidersWrapper />
-    </SnackbarProvider>
+    <AuthProvider>
+      <SnackbarProvider maxSnack={3}>
+        <ProvidersWrapper />
+      </SnackbarProvider>
+    </AuthProvider>
   </React.StrictMode>
 );

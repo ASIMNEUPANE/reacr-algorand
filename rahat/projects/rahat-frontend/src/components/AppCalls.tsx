@@ -1,32 +1,32 @@
-import * as algokit from '@algorandfoundation/algokit-utils'
-import { TransactionSignerAccount } from '@algorandfoundation/algokit-utils/types/account'
-import { useWallet } from '@txnlab/use-wallet'
-import { useSnackbar } from 'notistack'
-import { useState } from 'react'
-import { HelloWorldClient } from '../contracts/HelloWorld'
-import { getAlgodConfigFromViteEnvironment } from '../utils/network/getAlgoClientConfigs'
+import * as algokit from '@algorandfoundation/algokit-utils';
+import { TransactionSignerAccount } from '@algorandfoundation/algokit-utils/types/account';
+import { useWallet } from '@txnlab/use-wallet';
+import { useSnackbar } from 'notistack';
+import { useState } from 'react';
+import { HelloWorldClient } from '../../contracts/HelloWorld';
+import { getAlgodConfigFromViteEnvironment } from '../../utils/network/getAlgoClientConfigs';
 
 interface AppCallsInterface {
-  openModal: boolean
-  setModalState: (value: boolean) => void
+  openModal: boolean;
+  setModalState: (value: boolean) => void;
 }
 
 const AppCalls = ({ openModal, setModalState }: AppCallsInterface) => {
-  const [loading, setLoading] = useState<boolean>(false)
-  const [contractInput, setContractInput] = useState<string>('')
+  const [loading, setLoading] = useState<boolean>(false);
+  const [contractInput, setContractInput] = useState<string>('');
 
-  const algodConfig = getAlgodConfigFromViteEnvironment()
-   const algodClient = algokit.getAlgoClient({
+  const algodConfig = getAlgodConfigFromViteEnvironment();
+  const algodClient = algokit.getAlgoClient({
     server: algodConfig.server,
     port: algodConfig.port,
     token: algodConfig.token,
-  })
+  });
 
-  const { enqueueSnackbar } = useSnackbar()
-  const { signer, activeAddress } = useWallet()
+  const { enqueueSnackbar } = useSnackbar();
+  const { signer, activeAddress } = useWallet();
 
   const sendAppCall = async () => {
-    setLoading(true)
+    setLoading(true);
 
     // Please note, in typical production scenarios,
     // you wouldn't want to use deploy directly from your frontend.
@@ -39,23 +39,23 @@ const AppCalls = ({ openModal, setModalState }: AppCallsInterface) => {
         resolveBy: 'id',
         id: 0,
       },
-      algodClient,
-    )
+      algodClient
+    );
     await appClient.create.createApplication({}).catch((e: Error) => {
-      enqueueSnackbar(`Error deploying the contract: ${e.message}`, { variant: 'error' })
-      setLoading(false)
-      return
-    })
+      enqueueSnackbar(`Error deploying the contract: ${e.message}`, { variant: 'error' });
+      setLoading(false);
+      return;
+    });
 
     const response = await appClient.hello({ name: contractInput }).catch((e: Error) => {
-      enqueueSnackbar(`Error calling the contract: ${e.message}`, { variant: 'error' })
-      setLoading(false)
-      return
-    })
+      enqueueSnackbar(`Error calling the contract: ${e.message}`, { variant: 'error' });
+      setLoading(false);
+      return;
+    });
 
-    enqueueSnackbar(`Response from the contract: ${response?.return}`, { variant: 'success' })
-    setLoading(false)
-  }
+    enqueueSnackbar(`Response from the contract: ${response?.return}`, { variant: 'success' });
+    setLoading(false);
+  };
 
   return (
     <dialog id="appcalls_modal" className={`modal ${openModal ? 'modal-open' : ''} bg-slate-200`}>
@@ -68,7 +68,7 @@ const AppCalls = ({ openModal, setModalState }: AppCallsInterface) => {
           className="input input-bordered w-full"
           value={contractInput}
           onChange={(e) => {
-            setContractInput(e.target.value)
+            setContractInput(e.target.value);
           }}
         />
         <div className="modal-action ">
@@ -81,7 +81,7 @@ const AppCalls = ({ openModal, setModalState }: AppCallsInterface) => {
         </div>
       </form>
     </dialog>
-  )
-}
+  );
+};
 
-export default AppCalls
+export default AppCalls;

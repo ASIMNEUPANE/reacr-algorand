@@ -1,6 +1,8 @@
+import { useAuth } from '@/context/AuthContext';
 import { Provider, useWallet } from '@txnlab/use-wallet';
-import Account from './Account';
+import { useEffect } from 'react';
 import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 interface ConnectWalletInterface {
   openModal: boolean;
@@ -9,25 +11,41 @@ interface ConnectWalletInterface {
 
 const ConnectWallet = ({ openModal, closeModal }: ConnectWalletInterface) => {
   const { providers, activeAddress } = useWallet();
+  const { isAuthenticated, login, logout } = useAuth();
+
+  const navigate = useNavigate(); // Hook for navigation
 
   const isKmd = (provider: Provider) => provider.metadata.name.toLowerCase() === 'kmd';
+
+  // useEffect(() => {
+  //   if (!isAuthenticated) {
+  //     login(); // You should replace this with actual logic to check wallet connection status
+  //   }
+  // }, [isAuthenticated, login]);
+
+  useEffect(() => {
+    if (activeAddress) {
+      login();
+      navigate('/admin/dashboard', { replace: true });
+    }
+  }, [activeAddress, navigate]);
 
   return (
     <dialog
       id="connect_wallet_modal"
-      className={`fixed bg-red-500 inset-0 z-50 flex items-center justify-center ${openModal ? 'block' : 'hidden'}`}
+      className={`fixed  inset-0 z-50 flex items-center justify-center ${openModal ? 'block' : 'hidden'}`}
       open
     >
-      <form method="dialog" className="bg-gray-900 text-white p-8 rounded-lg shadow-lg ">
+      <form method="dialog" className="bg-gray-900 text-white p-8 shadow-lg ">
         <h3 className="font-bold text-3xl mb-6 text-center">Select Wallet Provider</h3>
 
         <div className="grid gap-6">
-          {activeAddress && (
+          {/* {activeAddress && (
             <>
               <Navigate replace to="/admin/dashboard" />
               <div className="border-b border-gray-600 my-4" />
             </>
-          )}
+          )} */}
 
           {!activeAddress &&
             providers?.map((provider) => (
@@ -57,15 +75,16 @@ const ConnectWallet = ({ openModal, closeModal }: ConnectWalletInterface) => {
           </button>
           {activeAddress && (
             <button
-              className="btn bg-red-600 hover:bg-red-500 text-white py-2 px-4 rounded-lg"
+              className="btn  text-white py-2 px-4 rounded-lg"
               data-test-id="logout"
-              onClick={() => {
+              onClick={async () => {
                 if (providers) {
                   const activeProvider = providers.find((p) => p.isActive);
                   if (activeProvider) {
                     activeProvider.disconnect();
                   } else {
                     localStorage.removeItem('txnlab-use-wallet');
+
                     window.location.reload();
                   }
                 }

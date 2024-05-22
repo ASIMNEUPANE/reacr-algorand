@@ -1,67 +1,71 @@
-import * as algokit from '@algorandfoundation/algokit-utils'
-import { useWallet } from '@txnlab/use-wallet'
-import algosdk from 'algosdk'
-import { useSnackbar } from 'notistack'
-import { useState } from 'react'
-import { getAlgodConfigFromViteEnvironment } from '../utils/network/getAlgoClientConfigs'
+import * as algokit from '@algorandfoundation/algokit-utils';
+import { useWallet } from '@txnlab/use-wallet';
+import algosdk from 'algosdk';
+import { useSnackbar } from 'notistack';
+import { useState } from 'react';
+import { getAlgodConfigFromViteEnvironment } from '../../utils/network/getAlgoClientConfigs';
 
 interface TransactInterface {
-  openModal: boolean
-  setModalState: (value: boolean) => void
+  openModal: boolean;
+  setModalState: (value: boolean) => void;
 }
 
 const Transact = ({ openModal, setModalState }: TransactInterface) => {
-  const [loading, setLoading] = useState<boolean>(false)
-  const [receiverAddress, setReceiverAddress] = useState<string>('')
+  const [loading, setLoading] = useState<boolean>(false);
+  const [receiverAddress, setReceiverAddress] = useState<string>('');
 
-  const algodConfig = getAlgodConfigFromViteEnvironment()
+  const algodConfig = getAlgodConfigFromViteEnvironment();
   const algodClient = algokit.getAlgoClient({
     server: algodConfig.server,
     port: algodConfig.port,
     token: algodConfig.token,
-  })
+  });
 
-  const { enqueueSnackbar } = useSnackbar()
+  const { enqueueSnackbar } = useSnackbar();
 
-  const { signer, activeAddress, signTransactions, sendTransactions } = useWallet()
+  const { signer, activeAddress, signTransactions, sendTransactions } = useWallet();
 
   const handleSubmitAlgo = async () => {
-    setLoading(true)
+    setLoading(true);
 
     if (!signer || !activeAddress) {
-      enqueueSnackbar('Please connect wallet first', { variant: 'warning' })
-      return
+      enqueueSnackbar('Please connect wallet first', { variant: 'warning' });
+      return;
     }
 
-    const suggestedParams = await algodClient.getTransactionParams().do()
+    const suggestedParams = await algodClient.getTransactionParams().do();
 
     const transaction = algosdk.makePaymentTxnWithSuggestedParamsFromObject({
       from: activeAddress,
       to: receiverAddress,
       amount: 1e6,
       suggestedParams,
-    })
+    });
 
-    const encodedTransaction = algosdk.encodeUnsignedTransaction(transaction)
+    const encodedTransaction = algosdk.encodeUnsignedTransaction(transaction);
 
-    const signedTransactions = await signTransactions([encodedTransaction])
+    const signedTransactions = await signTransactions([encodedTransaction]);
 
-    const waitRoundsToConfirm = 4
+    const waitRoundsToConfirm = 4;
 
     try {
-      enqueueSnackbar('Sending transaction...', { variant: 'info' })
-      const { id } = await sendTransactions(signedTransactions, waitRoundsToConfirm)
-      enqueueSnackbar(`Transaction sent: ${id}`, { variant: 'success' })
-      setReceiverAddress('')
+      enqueueSnackbar('Sending transaction...', { variant: 'info' });
+      const { id } = await sendTransactions(signedTransactions, waitRoundsToConfirm);
+      enqueueSnackbar(`Transaction sent: ${id}`, { variant: 'success' });
+      setReceiverAddress('');
     } catch (e) {
-      enqueueSnackbar('Failed to send transaction', { variant: 'error' })
+      enqueueSnackbar('Failed to send transaction', { variant: 'error' });
     }
 
-    setLoading(false)
-  }
+    setLoading(false);
+  };
 
   return (
-    <dialog id="transact_modal" className={`modal ${openModal ? 'modal-open' : ''} bg-slate-200`}style={{ display: openModal ? 'block' : 'none' }}>
+    <dialog
+      id="transact_modal"
+      className={`modal ${openModal ? 'modal-open' : ''} bg-slate-200`}
+      style={{ display: openModal ? 'block' : 'none' }}
+    >
       <form method="dialog" className="modal-box">
         <h3 className="font-bold text-lg">Send payment transaction</h3>
         <br />
@@ -72,7 +76,7 @@ const Transact = ({ openModal, setModalState }: TransactInterface) => {
           className="input input-bordered w-full"
           value={receiverAddress}
           onChange={(e) => {
-            setReceiverAddress(e.target.value)
+            setReceiverAddress(e.target.value);
           }}
         />
         <div className="modal-action grid">
@@ -89,7 +93,7 @@ const Transact = ({ openModal, setModalState }: TransactInterface) => {
         </div>
       </form>
     </dialog>
-  )
-}
+  );
+};
 
-export default Transact
+export default Transact;

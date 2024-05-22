@@ -44,9 +44,7 @@ export const Navbar = () => {
                 className="block py-2 px-3 md:p-0 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:dark:text-blue-500"
                 aria-current="page"
               >
-                <Link to={'/home'}>
-                Home
-                </Link>
+                <Link to={'/home'}>Home</Link>
               </a>
             </li>
             <li>

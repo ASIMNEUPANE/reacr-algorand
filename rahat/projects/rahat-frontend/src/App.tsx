@@ -1,24 +1,19 @@
 import Home from './Home';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import AdminLayout from './layout/AdminLayout';
-import UserLayout from './layout/UserLayout';
-('./layout/UserLayout');
 import { AdminRoute } from './components/Routes';
 import Dashboard from './pages/Dashboard';
 import Project from './pages/Project';
 import Transaction from './pages/Transaction';
-import AddProject from './AddProject';
+import AddProject from './pages/AddProject';
+import Beneficiary from './pages/Beneficiary';
 
 export default function App() {
   return (
     <div>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<UserLayout />}>
-            <Route path="/home" element={<Home />} />
-            <Route path="/home/add" element={<AddProject />} />
-          </Route>
-
+          <Route path="/" element={<Home />} />
           <Route path="/admin" element={<AdminLayout />}>
             <Route
               path="/admin/dashboard"
@@ -36,19 +31,27 @@ export default function App() {
                 </AdminRoute>
               }
             />
-            {/* <Route
+            <Route
               path="/admin/project/add"
               element={
                 <AdminRoute>
-                  < AddProject/>
+                  <AddProject />
                 </AdminRoute>
               }
-            /> */}
+            />
             <Route
               path="/admin/transaction"
               element={
                 <AdminRoute>
                   <Transaction />
+                </AdminRoute>
+              }
+            />
+            <Route
+              path="/admin/beneficiary"
+              element={
+                <AdminRoute>
+                  <Beneficiary />
                 </AdminRoute>
               }
             />
