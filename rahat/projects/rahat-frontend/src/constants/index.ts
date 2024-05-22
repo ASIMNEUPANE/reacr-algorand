@@ -2,35 +2,34 @@ import { sun,createCampaign, dashboard, logout, payment, profile, withdraw } fro
 
 export const navlinks = [
   {
-    name: 'dashboard',
+    name: 'Dashboard',
     imgUrl: dashboard,
     link: '/admin/dashboard',
   },
   {
-    name: 'project',
+    name: 'Project',
     imgUrl: createCampaign,
     link: '/admin/project',
   },
   {
-    name: 'addProject',
+    name: 'Add Project',
     imgUrl: payment,
     link: '/admin/project/add',
-    disabled: true,
   },
   {
-    name: 'transaction',
+    name: 'Transaction',
     imgUrl: withdraw,
     link: '/admin/transaction',
   },
   {
-    name: 'beneficiary',
+    name: 'Beneficiary',
     imgUrl: profile,
     link: '/admin/beneficiary',
   },
-  {
-    name: 'logout',
-    imgUrl: logout,
-    link: '/',
-    disabled: true,
-  },
+  // {
+  //   name: 'logout',
+  //   imgUrl: logout,
+  //   link: '/',
+  //   disabled: true,
+  // },
 ];

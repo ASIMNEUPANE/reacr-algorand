@@ -3,8 +3,8 @@ import { TransactionSignerAccount } from '@algorandfoundation/algokit-utils/type
 import { useWallet } from '@txnlab/use-wallet';
 import { useSnackbar } from 'notistack';
 import { useState } from 'react';
-import { HelloWorldClient } from '../../contracts/HelloWorld';
-import { getAlgodConfigFromViteEnvironment } from '../../utils/network/getAlgoClientConfigs';
+import { HelloWorldClient } from '../contracts/HelloWorld';
+import { getAlgodConfigFromViteEnvironment } from '../utils/network/getAlgoClientConfigs';
 
 interface AppCallsInterface {
   openModal: boolean;

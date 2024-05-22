@@ -1,7 +1,6 @@
 import { useAuth } from '@/context/AuthContext';
 import { Provider, useWallet } from '@txnlab/use-wallet';
 import { useEffect } from 'react';
-import { Navigate } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
 interface ConnectWalletInterface {
@@ -84,7 +83,6 @@ const ConnectWallet = ({ openModal, closeModal }: ConnectWalletInterface) => {
                     activeProvider.disconnect();
                   } else {
                     localStorage.removeItem('txnlab-use-wallet');
-
                     window.location.reload();
                   }
                 }
